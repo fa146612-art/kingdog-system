@@ -1,0 +1,9 @@
+{
+  "name": "킹독통합시스템",
+  "description": "A comprehensive React-based dashboard for dog grooming, hotel, and kindergarten management, integrated with Firebase for real-time data persistence.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone",
+    "geolocation"
+  ]
+}
