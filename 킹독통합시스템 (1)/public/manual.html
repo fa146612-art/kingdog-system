@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>킹독 통합 관리 시스템 공식 매뉴얼</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-light: #e0e7ff;
+            --text: #1f2937;
+            --text-light: #6b7280;
+            --bg: #f3f4f6;
+            --white: #ffffff;
+            --border: #e5e7eb;
+            --sidebar-width: 260px;
+        }
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--text);
+            background: var(--bg);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        /* Sidebar */
+        aside {
+            width: var(--sidebar-width);
+            background: var(--white);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+            z-index: 10;
+        }
+        .brand {
+            padding: 24px;
+            font-size: 1.25rem;
+            font-weight: 900;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+        .brand i { font-size: 1.5rem; }
+        
+        .menu {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 0;
+        }
+        .menu-category {
+            padding: 0 24px;
+            margin-bottom: 8px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .menu a {
+            display: flex;
+            align-items: center;
+            padding: 10px 24px;
+            text-decoration: none;
+            color: var(--text-light);
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+        }
+        .menu a:hover, .menu a.active {
+            background: var(--primary-light);
+            color: var(--primary);
+            border-left-color: var(--primary);
+        }
+        .menu a i { margin-right: 10px; font-size: 1.1rem; }
+
+        /* Main Content */
+        main {
+            flex: 1;
+            overflow-y: auto;
+            scroll-behavior: smooth;
+            padding: 40px;
+        }
+        .content-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--white);
+            padding: 60px;
+            border-radius: 20px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Typography */
+        h1 { font-size: 2.5rem; margin: 0 0 20px 0; color: #111827; letter-spacing: -0.02em; }
+        h2 { font-size: 1.75rem; margin: 60px 0 20px 0; padding-bottom: 10px; border-bottom: 2px solid var(--border); color: #111827; letter-spacing: -0.01em; }
+        h3 { font-size: 1.3rem; margin: 30px 0 15px 0; color: #374151; display: flex; align-items: center; }
+        h3 i { margin-right: 8px; color: var(--primary); }
+        p { line-height: 1.7; margin-bottom: 16px; color: #4b5563; }
+        
+        /* Components */
+        .callout {
+            background: #f8fafc;
+            border-left: 4px solid var(--primary);
+            padding: 20px;
+            border-radius: 0 12px 12px 0;
+            margin: 20px 0;
+        }
+        .callout.danger {
+            background: #fef2f2;
+            border-left-color: #ef4444;
+        }
+        .callout-title {
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 8px;
+            display: block;
+        }
+        .callout.danger .callout-title { color: #991b1b; }
+
+        ul { padding-left: 20px; color: #4b5563; }
+        li { margin-bottom: 8px; line-height: 1.6; }
+        li strong { color: #1f2937; }
+
+        .ui-map {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+            margin: 20px 0;
+        }
+        .ui-item {
+            background: #fff;
+            border: 1px solid var(--border);
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+        }
+        .ui-item strong { display: block; margin-bottom: 4px; color: var(--primary); }
+
+        code {
+            background: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #0f172a;
+            font-size: 0.9em;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-right: 6px;
+        }
+        .tag.core { background: #dbeafe; color: #1e40af; }
+        .tag.rule { background: #fee2e2; color: #991b1b; }
+
+        @media (max-width: 768px) {
+            body { flex-direction: column; }
+            aside { width: 100%; height: auto; border-right: none; border-bottom: 1px solid var(--border); }
+            .menu { display: none; } /* Hide menu on mobile */
+            main { padding: 20px; }
+            .content-wrapper { padding: 30px; }
+        }
+    </style>
+</head>
+<body>
+
+    <aside>
+        <div class="brand">
+            <i class="ri-dashboard-3-line"></i> KINGDOG MANUAL
+        </div>
+        <div class="menu">
+            <div class="menu-category">소개</div>
+            <a href="#intro" class="active"><i class="ri-flag-line"></i> 시스템 철학</a>
+            
+            <div class="menu-category">핵심 업무</div>
+            <a href="#ledger"><i class="ri-booklet-line"></i> 장부와 정산</a>
+            <a href="#reservation"><i class="ri-calendar-check-line"></i> 예약과 매출</a>
+            <a href="#kindergarten"><i class="ri-school-line"></i> 유치원/픽업</a>
+            
+            <div class="menu-category">운영 관리</div>
+            <a href="#risk"><i class="ri-alert-line"></i> [필독] 예약 누락 방지</a>
+            <a href="#comm"><i class="ri-chat-smile-2-line"></i> 알림장/소통</a>
+            <a href="#ai"><i class="ri-robot-line"></i> AI 매니저 활용</a>
+        </div>
+    </aside>
+
+    <main>
+        <div class="content-wrapper">
+            
+            <section id="intro">
+                <h1>킹독 통합 관리 시스템 가이드</h1>
+                <p>
+                    이 매뉴얼은 단순한 기능 설명서가 아닙니다. 
+                    <strong>"사장님이 현장에서 가장 편하게 일하는 법"</strong>을 정의한 킹독만의 업무 지침서입니다.
+                </p>
+
+                <div class="callout">
+                    <span class="callout-title">핵심 철학 : Zero Mental Load</span>
+                    운전대를 잡고 픽업을 돌 때, "오늘 누구 태워야 하지?"를 고민하지 마세요. 
+                    시스템에 규칙만 입력해두면, 컴퓨터가 알아서 오늘 할 일을 알려줍니다. 
+                    여러분의 뇌 용량은 오직 <strong>강아지를 케어하는 데에만</strong> 쓰세요.
+                </div>
+            </section>
+
+            <section id="ledger">
+                <h2>1. 장부 관리 (Financial Ledger)</h2>
+                <p>돈의 흐름을 기록하는 곳입니다. 엑셀보다 빠르고, 수기 장부보다 정확합니다.</p>
+
+                <h3>체크박스(완료)의 진짜 의미</h3>
+                <p>장부 리스트 오른쪽의 체크박스는 <strong>"서비스 종료"가 아니라 "수금 완료(돈 받음)"</strong>를 뜻합니다.</p>
+                <ul>
+                    <li><span class="tag rule">체크됨</span> 돈을 받았습니다. (통장에 입금 확인됨)</li>
+                    <li><span class="tag rule">체크 안 됨</span> 서비스는 했지만 아직 결제 안 함 (자동으로 미수금 집계)</li>
+                </ul>
+
+                <h3>⚡ 원클릭 완납 버튼</h3>
+                <p>단골 고객이 "이번 달 밀린 거 한 번에 계산할게요"라고 할 때 사용하세요.</p>
+                <ul>
+                    <li>장부 리스트의 <strong>'실결제' 칸 왼쪽의 번개(⚡) 아이콘</strong>을 누르세요.</li>
+                    <li>청구된 금액 전액이 자동으로 입력되고, '완료' 상태로 변경됩니다.</li>
+                </ul>
+            </section>
+
+            <section id="reservation">
+                <h2>2. 예약과 매출의 흐름 (Workflow)</h2>
+                <p>호텔과 미용은 매출을 잡는 시점(Timing)이 다릅니다. 이 규칙을 지켜야 장부가 꼬이지 않습니다.</p>
+
+                <h3>🏨 호텔 (Hotel) : 입실 기준 원칙</h3>
+                <p>호텔은 예약 변동이 잦으므로, <strong>아이가 실제로 매장에 들어온 순간(Check-in)</strong>에 매출을 잡습니다.</p>
+                <div class="ui-map">
+                    <div class="ui-item">
+                        <strong>1. 예약 잡기</strong>
+                        [호텔예약] 탭에서 마우스로 드래그하여 방을 잡습니다. (이때는 장부에 돈이 안 올라갑니다.)
+                    </div>
+                    <div class="ui-item">
+                        <strong>2. 입실 (매출 등록)</strong>
+                        아이가 도착하면 [장부] 탭을 열어 호텔 요금을 등록합니다.
+                    </div>
+                    <div class="ui-item">
+                        <strong>3. 추가 비용</strong>
+                        사료가 떨어지거나 목욕을 추가하면? 나중에 합치지 말고 <strong>그때그때 장부에 건별로 추가</strong>하세요.
+                    </div>
+                </div>
+
+                <h3>✂️ 미용 (Grooming) : 예약 확정 원칙</h3>
+                <p>미용은 시간 약속이 생명입니다. 예약이 확정되는 순간 매출 흐름이 시작됩니다.</p>
+                <ul>
+                    <li><strong>정상 예약:</strong> 상태를 [예약완료]로 바꾸면, 예약금(또는 전액)이 장부에 <strong>자동 등록</strong>됩니다.</li>
+                    <li><strong>노쇼(No-Show) 발생 시:</strong> 예약금은 환불하지 않습니다. 장부에서 삭제하지 말고 <strong>그대로 두세요.</strong> 이는 비워둔 시간에 대한 정당한 기술료 매출입니다.</li>
+                </ul>
+            </section>
+
+            <section id="risk">
+                <h2>🚨 3. [필독] 예약 누락 방지 가이드</h2>
+                <div class="callout danger">
+                    <span class="callout-title">가장 위험한 상황: "카톡하다가 딴짓하기"</span>
+                    고객과 카톡으로 상담하다가, 바빠서 잠시 다른 일을 하고 깜빡하는 경우가 제일 많습니다.
+                    고객은 예약된 줄 알고 오는데, 장부에는 없는 끔찍한 상황을 막으려면 아래 규칙을 따르세요.
+                </div>
+
+                <h3>절대 기억에 의존하지 마세요</h3>
+                <p>상담이 시작되면, 확정되지 않았더라도 무조건 <strong>[상담중] 상태로 시스템에 먼저 등록</strong>하세요.</p>
+                <ul>
+                    <li><strong>미용:</strong> 빈 시간에 일단 이름을 넣고 저장하세요. 색깔이 노란색([상담중])으로 표시되어 "아직 확정 안 됨"을 알 수 있습니다.</li>
+                    <li><strong>호텔:</strong> 타임라인에 일단 드래그해두세요.</li>
+                </ul>
+                <p>시스템에 흔적을 남겨두면, 나중에 "아 맞다, 이분 예약금 입금 안 했지?" 하고 다시 챙길 수 있습니다.</p>
+            </section>
+
+            <section id="kindergarten">
+                <h2>4. 유치원 및 픽업 자동화</h2>
+                
+                <h3>고정 등원 (Set & Forget)</h3>
+                <p>[고객관리] > [유치원 정보] 탭에서 아이의 <strong>'고정 등원 요일'</strong>을 설정해두세요.</p>
+                <ul>
+                    <li>해당 요일이 되면 <strong>[픽업 리스트]</strong>에 자동으로 이름이 뜹니다.</li>
+                    <li>아침에 "오늘 누구 태우러 가야 하지?" 고민할 필요 없이, 리스트만 보고 운전하면 됩니다.</li>
+                </ul>
+            </section>
+
+            <section id="comm">
+                <h2>5. 알림장 및 소통</h2>
+                <p>상황에 따라 두 가지 방식을 섞어서 사용하세요.</p>
+                
+                <h3>A. 텍스트 복사 (현재 주력)</h3>
+                <p>카카오톡방에 사진과 영상을 직접 올릴 때 사용합니다. [내용 복사] 버튼을 누르면 "00이의 오늘 하루..." 템플릿이 복사됩니다.</p>
+
+                <h3>B. 링크 공유 (프리미엄)</h3>
+                <p>[공유] 버튼을 눌러 링크를 보내세요. 보호자는 매거진처럼 예쁜 웹 화면에서 아이의 하루 통계와 사진을 볼 수 있습니다. (우리 매장의 전문성을 보여주기 좋습니다.)</p>
+            </section>
+
+            <section id="ai">
+                <h2>6. AI 매니저 활용</h2>
+                <p>기능이 기억나지 않거나 급할 때는 <strong>키보드에서 <code>Ctrl + K</code></strong>를 누르세요.</p>
+                <ul>
+                    <li>"미수금 확인해줘"</li>
+                    <li>"호텔 예약 어떻게 해?"</li>
+                    <li>"픽업 리스트 보여줘"</li>
+                </ul>
+                <p>AI가 이 매뉴얼을 학습하고 있어서, 질문하면 바로 답변해 줍니다.</p>
+            </section>
+
+            <div style="margin-top: 100px; padding-top: 20px; border-top: 1px solid var(--border); text-align: center; color: #9ca3af; font-size: 0.9rem;">
+                KINGDOG Management System v1.0
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Smooth scroll spy for active menu highlighting
+        const links = document.querySelectorAll('.menu a');
+        const sections = document.querySelectorAll('section');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - 100) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            links.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').includes(current)) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
